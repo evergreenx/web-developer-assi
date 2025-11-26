@@ -24,14 +24,31 @@ export const getUsers = (
   pageSize: number
 ): Promise<User[]> =>
   new Promise((resolve, reject) => {
-    connection.all<User>(
+    connection.all<any>(
       selectUsersTemplate,
       [pageNumber * pageSize, pageSize],
       (error, results) => {
         if (error) {
           reject(error);
         }
-        resolve(results);
+        if (!results) {
+          resolve([]);
+          return;
+        }
+        const users: User[] = results.map((row) => ({
+          id: row.id,
+          name: row.name,
+          username: row.username,
+          email: row.email,
+          phone: row.phone,
+          address: {
+            street: row.street,
+            city: row.city,
+            state: row.state,
+            zipcode: row.zipcode,
+          },
+        }));
+        resolve(users);
       }
     );
   });

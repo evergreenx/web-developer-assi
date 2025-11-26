@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { fetchUsers, fetchUsersCount } from "../services/userService";
+import { User } from "../types"; // Import the User interface
 
 export const useUsers = () => {
   const [pageNumber, setPageNumber] = useQueryState("pageNumber", {
@@ -21,7 +22,7 @@ export const useUsers = () => {
     data: users,
     isLoading: areUsersLoading,
     error: usersError,
-  } = useQuery({
+  } = useQuery<User[]>({ // Explicitly type data as User[]
     queryKey: ["users", pageNumber, pageSize],
     queryFn: () => fetchUsers(pageNumber, pageSize),
   });
@@ -30,7 +31,7 @@ export const useUsers = () => {
     data: totalUsers,
     isLoading: isTotalUsersLoading,
     error: totalUsersError,
-  } = useQuery({
+  } = useQuery<number>({ // Explicitly type data as number
     queryKey: ["totalUsers"],
     queryFn: fetchUsersCount,
   });
