@@ -1,10 +1,13 @@
 import { useEffect } from "react";
-import { useUsers } from "../hooks/useUsers";
-import Pagination from "./Pagination"; // Import the new Pagination component
-import type { User } from "../types"; // Import the User interface
- // Import the User interface
+import { useUsers } from "../../../hooks/useUsers";
+import Pagination from "../user/pagination";
+import type { User } from "../../../types";
 
-function UserTable() {
+interface UserTableProps {
+  onUserClick: (userId: number) => void;
+}
+
+function UserTable({ onUserClick }: UserTableProps) {
   const {
     users,
     totalUsers,
@@ -49,7 +52,11 @@ function UserTable() {
             </thead>
             <tbody>
               {users.map((user: User) => (
-                <tr key={user.id}>
+                <tr
+                  key={user.id}
+                  onClick={() => onUserClick(user.id)}
+                  className="cursor-pointer hover:bg-gray-100"
+                >
                   <td className="border border-gray-300 px-2 py-2">
                     <strong>{user.name}</strong>
                   </td>

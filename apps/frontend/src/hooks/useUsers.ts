@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { fetchUsers, fetchUsersCount } from "../services/userService";
-import { User } from "../types"; // Import the User interface
+import type { User } from "../types"; // Import the User interface
+ // Import the User interface
 
 export const useUsers = () => {
   const [pageNumber, setPageNumber] = useQueryState("pageNumber", {

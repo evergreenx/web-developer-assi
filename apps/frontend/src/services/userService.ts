@@ -1,7 +1,7 @@
 import axios from "axios";
-import { User } from "../types"; // Import the User interface
+import type { User } from "../types";
 
-const BASE_URL = "http://localhost:3001/api/users";
+const BASE_URL = "http://localhost:3001/users";
 
 export const fetchUsers = async (pageNumber: number, pageSize: number): Promise<User[]> => {
   const response = await axios.get(`${BASE_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
@@ -11,4 +11,9 @@ export const fetchUsers = async (pageNumber: number, pageSize: number): Promise<
 export const fetchUsersCount = async (): Promise<number> => {
   const response = await axios.get(`${BASE_URL}/count`);
   return response.data.count;
+};
+
+export const fetchUserById = async (userId: number): Promise<User> => {
+  const response = await axios.get(`${BASE_URL}/${userId}`);
+  return response.data;
 };
