@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import UserPosts from "./components/user-posts"; // Import the UserPosts component
+import UserPosts from "./components/user-posts"; 
 import UserTable from "./components/table/user/users-table";
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
   };
 
   return (
-    <main className="w-[880px] mx-auto justify-center flex mt-20  bg-background h-screen">
+    <main className="md:max-w-[880px] w-full mx-auto justify-center flex mt-20  bg-background h-screen">
       {renderContent()}
       <ReactQueryDevtools initialIsOpen={false} />
     </main>

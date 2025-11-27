@@ -31,7 +31,7 @@ function UserTable({ onUserClick }: UserTableProps) {
     totalUsers !== undefined ? Math.ceil(totalUsers / pageSize) : 0;
 
   return (
-    <div className="p-5 bg-background w-[880px]">
+    <div className="p-5 bg-background w-full md:w-[880px]">
       <h1 className="text-6xl text-foreground font-medium mb-7">Users </h1>
 
       {error && <p className="text-red-500">Error: {error.message}</p>}
@@ -62,7 +62,7 @@ function UserTable({ onUserClick }: UserTableProps) {
                 {users.map((user: User) => (
                   <tr
                     key={user.id}
-                    onClick={() => onUserClick(user.id)}
+                    onClick={() => onUserClick(user?.id)}
                     className="cursor-pointer border-0 hover:bg-gray-50 leading-5 tracking-normal text-sm text-foreground font-normal rounded-lg"
                   >
                     <td className="border-b border-border px-2 py-2 w-[179px]">
@@ -84,7 +84,6 @@ function UserTable({ onUserClick }: UserTableProps) {
             </table>
           </div>
 
-        
           <Pagination
             currentPage={pageNumber}
             totalPages={totalPages}

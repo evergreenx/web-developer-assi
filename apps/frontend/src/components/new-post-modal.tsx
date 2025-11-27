@@ -6,6 +6,7 @@ interface NewPostModalProps {
   onSubmit: (title: string, body: string) => void;
   isLoading: boolean;
   error: Error | null;
+  onSuccess?: () => void;
 }
 
 const NewPostModal: React.FC<NewPostModalProps> = ({
@@ -14,14 +15,20 @@ const NewPostModal: React.FC<NewPostModalProps> = ({
   onSubmit,
   isLoading,
   error,
+  onSuccess,
 }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (title.trim() && body.trim()) {
-      onSubmit(title, body);
+      await onSubmit(title, body);
+      if (!error) { // Only clear if no error
+        setTitle("");
+        setBody("");
+        onSuccess?.();
+      }
     }
   };
 

@@ -38,6 +38,8 @@ export const usePosts = (userId: string) => { // userId changed to string
     isLoading: arePostsLoading,
     error: postsError,
     createPost: createPostMutation.mutate,
+    isCreatingPost: createPostMutation.isPending, // Expose isPending
+    createPostError: createPostMutation.error,   // Expose error
     deletePost: deletePostMutation.mutate,
   };
 };
