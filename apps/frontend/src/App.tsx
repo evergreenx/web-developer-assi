@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import UserPosts from "./components/UserPosts"; // Import the UserPosts component
+import UserPosts from "./components/user-posts"; // Import the UserPosts component
 import UserTable from "./components/table/user/users-table";
 
 function App() {

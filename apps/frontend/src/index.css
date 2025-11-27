@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -8,6 +7,8 @@
   --theme-border: #e2e8f0;
   --theme-background: #fff;
 
+
+  --theme-primary: #155DFC;
   --theme-primary-foreground: #fff;
   --theme-secondary: #f3f4f6; 
   --theme-secondary-foreground: #1f2937;
@@ -35,7 +36,7 @@
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
 

@@ -84,11 +84,7 @@ function UserTable({ onUserClick }: UserTableProps) {
             </table>
           </div>
 
-          {totalUsers !== undefined && (
-            <p className="mt-4">
-              Page {pageNumber + 1} of {totalPages} (Total {totalUsers} users)
-            </p>
-          )}
+        
           <Pagination
             currentPage={pageNumber}
             totalPages={totalPages}
