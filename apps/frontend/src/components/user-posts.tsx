@@ -4,12 +4,16 @@ import NewPostModal from "./new-post-modal";
 import { PageLoader } from "./loader";
 import { UserPostDetails } from "./user-post-count";
 import NewPostButton from "./new-post-button";
+import Breadcrumb from "./user-breadcrumb"; 
 
 interface UserPostsProps {
-  userId: string; // Changed to string
+  userId: string; 
+  email: string;
+  userName: string; 
+  onBackClick: () => void; 
 }
 
-const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
+const UserPosts: React.FC<UserPostsProps> = ({ userId, email, userName, onBackClick }) => {
   const {
     posts,
     totalPosts,
@@ -36,8 +40,7 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
 
   const handleSubmitNewPost = async (title: string, body: string) => {
     await createPost({ title, body });
-    // Assuming createPost updates createPostError if there's an error
-    // and that createPostError is null on success
+
     if (!createPostError) {
       setIsModalOpen(false);
     }
@@ -55,7 +58,6 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
   };
 
   if (isLoading && !isCreatingPost) {
-    // Only show full loading if not just creating a post
     return (
       <div className="">
         <PageLoader />
@@ -69,19 +71,21 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
 
   return (
     <div className="p-5">
+      <Breadcrumb userName={userName} onBackClick={onBackClick} /> {/* Render Breadcrumb */}
       <UserPostDetails
-        email={"james.sunderland@acme.corp"}
+        email={email} 
         count={totalPosts}
+        userName={userName}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <NewPostButton onClick={handleOpenModal} />
         {posts && posts.length > 0 ? (
           <>
             {posts.map((post) => (
               <div
                 key={post.id}
-                className="relative overflow-hidden bg-background p-4 rounded-lg  border border-border w-[270px] shadow-md h-[293px]"
+                className="relative overflow-hidden bg-background p-6 rounded-lg  border border-border w-[270px] shadow-md h-[293px]"
               >
                 <button
                   onClick={() => deletePost(post.id)}
@@ -128,10 +132,10 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
                 </button>
                 <h2 className="text-lg text-foreground font-medium my-3 pr-5">
                   {truncateText(post.title, 50)}{" "}
-                  {/* Truncate title for display */}
+              
                 </h2>
-                <p className="text-foreground mt-2 break-all">
-                  {truncateText(post.body, 150)}{" "}
+                <p className="text-foreground text-sm mt-2 break-all">
+                  {truncateText(post.body, 200)}{" "}
                   {/* Truncate body for display */}
                 </p>
               </div>

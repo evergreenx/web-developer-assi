@@ -1,34 +1,18 @@
-import { useEffect } from "react";
 import { useUsers } from "../../../hooks/useUsers";
 import Pagination from "../user/pagination";
 import type { User } from "../../../types";
 import { PageLoader } from "../../loader";
 
 interface UserTableProps {
-  onUserClick: (userId: number) => void;
+  onUserClick: (userId: string, email: string, userName: string) => void;
 }
 
 function UserTable({ onUserClick }: UserTableProps) {
-  const {
-    users,
-    totalUsers,
-    isLoading,
-    error,
-    pageNumber,
-    setPageNumber,
-    pageSize,
-    setPageSize,
-  } = useUsers();
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.has("pageSize")) {
-      setPageSize(4);
-    }
-  }, [setPageSize]);
+  const { users, totalUsers, isLoading, error, pageNumber, setPageNumber } =
+    useUsers();
 
   const totalPages =
-    totalUsers !== undefined ? Math.ceil(totalUsers / pageSize) : 0;
+    totalUsers !== undefined ? Math.ceil(totalUsers / 4) : 0;
 
   return (
     <div className="p-5 bg-background w-full md:w-[880px]">
@@ -62,7 +46,7 @@ function UserTable({ onUserClick }: UserTableProps) {
                 {users.map((user: User) => (
                   <tr
                     key={user.id}
-                    onClick={() => onUserClick(user?.id)}
+                    onClick={() => onUserClick(user?.id, user.email, user.name)}
                     className="cursor-pointer border-0 hover:bg-gray-50 leading-5 tracking-normal text-sm text-foreground font-normal rounded-lg"
                   >
                     <td className="border-b border-border px-2 py-2 w-[179px]">
@@ -72,11 +56,13 @@ function UserTable({ onUserClick }: UserTableProps) {
                       {user.email}
                     </td>
                     <td
-                      className="border-b border-border px-2 py-2 w-[392px] whitespace-nowrap overflow-hidden text-ellipsis"
+                      className="border-b border-border truncate px-2 py-2 "
                       title={`${user.address.street}, ${user.address.city}, ${user.address.state}, ${user.address.zipcode}`}
                     >
-                      {user.address.street}, {user.address.city},{" "}
-                      {user.address.state}, {user.address.zipcode}
+                      <span className=" block truncate text-ellipsis w-[300px]">
+                        {user.address.street}, {user.address.city},{" "}
+                        {user.address.state}, {user.address.zipcode}{" "}
+                      </span>
                     </td>
                   </tr>
                 ))}

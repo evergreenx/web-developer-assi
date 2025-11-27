@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { fetchUsers, fetchUsersCount } from "../services/userService";
-import type { User } from "../types"; // Import the User interface
- // Import the User interface
+import type { User } from "../types";
+
 
 export const useUsers = () => {
   const [pageNumber, setPageNumber] = useQueryState("pageNumber", {
@@ -10,29 +10,22 @@ export const useUsers = () => {
     parser: (value) => parseInt(value) || 0,
     serializer: (value) => value.toString(),
   });
-  const [pageSize, setPageSize] = useQueryState("pageSize", {
-    defaultValue: undefined, // Remove default to force serialization
-    parser: (value) => {
-      const parsed = parseInt(value);
-      return isNaN(parsed) ? 4 : parsed; // Ensure 4 if not present or invalid
-    },
-    serializer: (value) => value.toString(),
-  });
-
   const {
     data: users,
     isLoading: areUsersLoading,
     error: usersError,
-  } = useQuery<User[]>({ // Explicitly type data as User[]
-    queryKey: ["users", pageNumber, pageSize],
-    queryFn: () => fetchUsers(pageNumber, pageSize),
+  } = useQuery<User[]>({
+    // Explicitly type data as User[]
+    queryKey: ["users", pageNumber, 4],
+    queryFn: () => fetchUsers(pageNumber, 4),
   });
 
   const {
     data: totalUsers,
     isLoading: isTotalUsersLoading,
     error: totalUsersError,
-  } = useQuery<number>({ // Explicitly type data as number
+  } = useQuery<number>({
+    // Explicitly type data as number
     queryKey: ["totalUsers"],
     queryFn: fetchUsersCount,
   });
@@ -44,7 +37,5 @@ export const useUsers = () => {
     error: usersError || totalUsersError,
     pageNumber,
     setPageNumber,
-    pageSize,
-    setPageSize,
   };
 };
