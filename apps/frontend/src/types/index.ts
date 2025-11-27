@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string; // Changed from number to string
   name: string;
   username: string;
   email: string;
@@ -14,7 +14,7 @@ export interface User {
 
 export interface Post {
   id: string;
-  user_id: number;
+  user_id: string; // Changed from number to string
   title: string;
   body: string;
   created_at: string;

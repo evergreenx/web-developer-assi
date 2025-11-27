@@ -1,19 +1,50 @@
-import React from 'react';
-import { usePosts } from '../hooks/usePosts'; // Import the usePosts hook
-import { useUser } from '../hooks/useUser'; // Import the useUser hook
+import React, { useState } from 'react';
+import { usePosts } from '../hooks/usePosts';
+import { useUser } from '../hooks/useUser';
+import NewPostModal from './new-post-modal'; // Import the new modal component
+import NewPostButton from './new-post-button'; // Import the new button component
 
 interface UserPostsProps {
-  userId: number;
+  userId: string; // Changed to string
 }
 
 const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
-  const { posts, totalPosts, isLoading: isLoadingPosts, error: postsError, deletePost } = usePosts(userId);
+  const { posts, totalPosts, isLoading: isLoadingPosts, error: postsError, deletePost, createPost } = usePosts(userId);
   // const { user, isLoading: isLoadingUser, error: userError } = useUser(userId);
 
-  const isLoading = isLoadingPosts;
-  const error = postsError ;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [createPostError, setCreatePostError] = useState<Error | null>(null);
+  const [isCreatingPost, setIsCreatingPost] = useState(false);
 
-  if (isLoading) {
+
+  const isLoading = isLoadingPosts || isCreatingPost;
+  const error = postsError || createPostError;
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    setCreatePostError(null); // Clear previous errors
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmitNewPost = async (title: string, body: string) => {
+    setIsCreatingPost(true);
+    setCreatePostError(null);
+    try {
+      await createPost({ title, body });
+      setIsModalOpen(false); // Close modal on success
+      // The usePosts hook will automatically invalidate queries and refetch posts
+    } catch (err) {
+      setCreatePostError(err as Error);
+    } finally {
+      setIsCreatingPost(false);
+    }
+  };
+
+
+  if (isLoading && !isCreatingPost) { // Only show full loading if not just creating a post
     return <div className="p-5">Loading user and posts...</div>;
   }
 
@@ -21,22 +52,14 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
     return <div className="p-5 text-red-500">Error: {error.message}</div>;
   }
 
-
-
   return (
     <div className="p-5">
       <h1 className="text-2xl font-bold mb-4">User Details and Posts</h1>
 
-      {/* <div className="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-2">User: {user.name}</h2>
-        <p><strong>Email:</strong> {user.email}</p>
-        {user.address && (
-          <p>
-            <strong>Address:</strong> {user.address.street}, {user.address.city}, {user.address.state}, {user.address.zipcode}
-          </p>
-        )}
-        <p className="mt-2"><strong>Total Posts:</strong> {totalPosts}</p>
-      </div> */}
+      <div className="mb-4">
+        <NewPostButton onClick={handleOpenModal} />
+      </div>
+
 
       {posts && posts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -63,6 +86,14 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
       >
         Go Back
       </button>
+
+      <NewPostModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitNewPost}
+        isLoading={isCreatingPost}
+        error={createPostError}
+      />
     </div>
   );
 };

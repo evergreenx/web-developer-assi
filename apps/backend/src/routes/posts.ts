@@ -10,8 +10,17 @@ router.get("/", async (req: Request, res: Response) => {
     res.status(400).send({ error: "userId is required" });
     return;
   }
-  const posts = await getPosts(userId);
-  res.send(posts);
+
+  try {
+    const userExists = await checkUserExists(userId);
+    if (!userExists) {
+      return res.status(404).send({ error: `User with ID ${userId} not found` });
+    }
+    const posts = await getPosts(userId);
+    res.send(posts);
+  } catch (error) {
+    res.status(500).send({ error: "Error fetching posts" });
+  }
 });
 
 router.post("/", async (req: Request, res: Response) => {
@@ -19,8 +28,6 @@ router.post("/", async (req: Request, res: Response) => {
   if (!title || !body || !userId) {
     return res.status(400).send({ error: "title, body, and userId are required" });
   }
-
-  // No longer parsing userId to number or checking isNaN
 
   try {
     const userExists = await checkUserExists(userId); // userId is now a string
@@ -44,7 +51,8 @@ router.delete("/:id", async (req: Request, res: Response) => {
     const changes = await deletePost(postId);
     if (changes === 0) {
       res.status(404).send({ message: "Post not found" });
-    } else {
+    }
+    else {
       res.status(200).send({ message: "Post deleted successfully" });
     }
   } catch (error) {
@@ -53,3 +61,4 @@ router.delete("/:id", async (req: Request, res: Response) => {
 });
 
 export default router;
+

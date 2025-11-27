@@ -14,38 +14,44 @@ function App() {
       setCurrentQuery(window.location.search);
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
   const handleNavigate = (path: string, query?: string) => {
     const newUrl = query ? `${path}${query}` : path;
-    window.history.pushState({}, '', newUrl);
+    window.history.pushState({}, "", newUrl);
     setCurrentPath(path);
-    setCurrentQuery(query || '');
+    setCurrentQuery(query || "");
   };
 
   const renderContent = () => {
-    if (currentPath === '/user-posts') {
+    if (currentPath === "/user-posts") {
       const urlParams = new URLSearchParams(currentQuery);
-      const userId = urlParams.get('userId');
+      const userId = urlParams.get("userId");
 
       if (userId) {
         return <UserPosts userId={userId} />;
       }
       return <div>Invalid User ID</div>; // Handle case where userId is missing
     } else {
-      return <UserTable onUserClick={(userId) => handleNavigate('/user-posts', `?userId=${userId}`)} />;
+      return (
+        <UserTable
+          onUserClick={(userId) =>
+            handleNavigate("/user-posts", `?userId=${userId}`)
+          }
+        />
+      );
     }
   };
 
   return (
-    <>
+    <main className="w-[880px] mx-auto justify-center flex mt-20  bg-background h-screen">
       {renderContent()}
       <ReactQueryDevtools initialIsOpen={false} />
-    </>
+    </main>
   );
 }
 

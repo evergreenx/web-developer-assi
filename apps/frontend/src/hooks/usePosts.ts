@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchPosts, deletePost } from "../services/postService";
+import { fetchPosts, deletePost, createPost } from "../services/postService";
 import type { Post } from "../types";
 
-export const usePosts = (userId: number) => {
+export const usePosts = (userId: string) => { // userId changed to string
   const queryClient = useQueryClient();
 
   const {
@@ -11,8 +11,16 @@ export const usePosts = (userId: number) => {
     error: postsError,
   } = useQuery<Post[], Error>({
     queryKey: ["posts", userId],
-    queryFn: () => fetchPosts(userId.toString()),
+    queryFn: () => fetchPosts(userId),
     enabled: !!userId, // Only fetch if userId is available
+  });
+
+  const createPostMutation = useMutation({
+    mutationFn: (newPost: { title: string; body: string }) =>
+      createPost(userId, newPost.title, newPost.body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts", userId] });
+    },
   });
 
   const deletePostMutation = useMutation({
@@ -29,6 +37,7 @@ export const usePosts = (userId: number) => {
     totalPosts,
     isLoading: arePostsLoading,
     error: postsError,
+    createPost: createPostMutation.mutate,
     deletePost: deletePostMutation.mutate,
   };
 };
