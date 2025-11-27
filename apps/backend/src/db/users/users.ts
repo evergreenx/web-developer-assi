@@ -3,6 +3,7 @@ import { connection } from "../connection";
 import {
   selectCountOfUsersTemplate,
   selectUsersTemplate,
+  checkUserExistsTemplate,
 } from "./query-templates";
 import { User } from "./types";
 
@@ -15,6 +16,20 @@ export const getUsersCount = (): Promise<number> =>
           reject(error);
         }
         resolve(results.count);
+      }
+    );
+  });
+
+export const checkUserExists = (userId: string): Promise<boolean> => // userId changed to string
+  new Promise((resolve, reject) => {
+    connection.get<{ count: number }>(
+      checkUserExistsTemplate,
+      [userId],
+      (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(results.count > 0);
       }
     );
   });
@@ -36,7 +51,7 @@ export const getUsers = (
           return;
         }
         const users: User[] = results.map((row) => ({
-          id: row.id,
+          id: String(row.id), // Cast to string
           name: row.name,
           username: row.username,
           email: row.email,

@@ -1,6 +1,6 @@
 export interface Post {
-  id: number;
-  user_id: number;
+  id: string; // Changed from number to string for UUID
+  user_id: string;
   title: string;
   body: string;
   created_at: string;

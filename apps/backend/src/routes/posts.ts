@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
-import { getPosts, deletePost } from "../db/posts/posts";
+import { createPost, deletePost, getPosts } from "../db/posts/posts";
+import { checkUserExists } from "../db/users/users";
 
 const router = Router();
 
@@ -11,6 +12,26 @@ router.get("/", async (req: Request, res: Response) => {
   }
   const posts = await getPosts(userId);
   res.send(posts);
+});
+
+router.post("/", async (req: Request, res: Response) => {
+  const { title, body, userId } = req.body;
+  if (!title || !body || !userId) {
+    return res.status(400).send({ error: "title, body, and userId are required" });
+  }
+
+  // No longer parsing userId to number or checking isNaN
+
+  try {
+    const userExists = await checkUserExists(userId); // userId is now a string
+    if (!userExists) {
+      return res.status(404).send({ error: `User with ID ${userId} not found` });
+    }
+    const newPost = await createPost(userId, title, body); // userId is now a string
+    res.status(201).send(newPost);
+  } catch (error) {
+    res.status(500).send({ error: "Error creating post" });
+  }
 });
 
 router.delete("/:id", async (req: Request, res: Response) => {

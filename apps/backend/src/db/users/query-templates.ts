@@ -19,3 +19,9 @@ export const selectCountOfUsersTemplate = `
 SELECT COUNT(*) as count
 FROM users
 `;
+
+export const checkUserExistsTemplate = `
+SELECT count(id) as count
+FROM users
+WHERE id = ?
+`;

@@ -5,6 +5,7 @@ import usersRouter from "./routes/users";
 const port = config.get("port") as number;
 
 const app: Application = express();
+app.use(express.json()); // Add this line to parse JSON request bodies
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
