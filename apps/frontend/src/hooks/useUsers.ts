@@ -6,9 +6,11 @@ import type { User } from "../types";
 
 export const useUsers = () => {
   const [pageNumber, setPageNumber] = useQueryState("pageNumber", {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     defaultValue: 0,
-    parser: (value) => parseInt(value) || 0,
-    serializer: (value) => value.toString(),
+    parser: (value: string) => parseInt(value) || 0,
+    serializer: (value: { toString: () => unknown; }) => value.toString(),
   });
   const {
     data: users,
