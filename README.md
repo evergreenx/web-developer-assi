@@ -6,9 +6,9 @@ This project is a monorepo managed with [TurboRepo](https://turbo.build/). It co
 
 1.  [Local Installation](#local-installation)
 2.  [Running the Applications](#running-the-applications)
-    *   [Backend](#backend)
-    *   [Frontend](#frontend)
-    *   [Running Both with TurboRepo](#running-both-with-turborepo)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Running Both with TurboRepo](#running-both-with-turborepo)
 3.  [Running Tests](#running-tests)
 4.  [Deployed URLs (Placeholders)](#deployed-urls-placeholders)
 
@@ -17,6 +17,7 @@ This project is a monorepo managed with [TurboRepo](https://turbo.build/). It co
 To get started with local development, follow these steps:
 
 1.  **Clone the repository:**
+
     ```bash
     git clone <your-repository-url>
     cd web-developer-assignment-Public-main # Or your cloned directory name
@@ -35,66 +36,66 @@ To get started with local development, follow these steps:
 
 The backend application is located in `apps/backend`.
 
-*   **Navigate to the backend directory:**
-    ```bash
-    cd apps/backend
-    ```
-*   **Build the backend:**
-    ```bash
-    npm run build
-    ```
-*   **Start the backend API:**
-    ```bash
-    npm run start
-    ```
-    The backend API should be running at `http://localhost:3001` (placeholder URL).
+- **Navigate to the backend directory:**
+  ```bash
+  cd apps/backend
+  ```
+- **Build the backend:**
+  ```bash
+  npm run build
+  ```
+- **Start the backend API:**
+  ```bash
+  npm run start
+  ```
+  The backend API should be running at `http://localhost:3001` (placeholder URL).
 
 ### Frontend
 
 The frontend application is located in `apps/frontend`.
 
-*   **Navigate to the frontend directory:**
-    ```bash
-    cd apps/frontend
-    ```
-*   **Start the frontend development server:**
-    ```bash
-    npm run dev
-    ```
-    The frontend application should be accessible at `http://localhost:5173` (placeholder URL).
+- **Navigate to the frontend directory:**
+  ```bash
+  cd apps/frontend
+  ```
+- **Start the frontend development server:**
+  ```bash
+  npm run dev
+  ```
+  The frontend application should be accessible at `http://localhost:5173` (placeholder URL).
 
 ### Running Both with TurboRepo
 
 You can leverage TurboRepo to run both applications concurrently from the project root.
 
-*   **Run both frontend and backend in development mode:**
-    ```bash
-    npm run dev
-    ```
-    *(Note: This assumes your root `package.json` has a `dev` script that orchestrates `turbo run dev` for both apps. If not, you might need `turbo run dev` directly if configured.)*
+- **Run both frontend and backend in development mode:**
+  ```bash
+  npm run dev
+  ```
+  _(Note: This assumes your root `package.json` has a `dev` script that orchestrates `turbo run dev` for both apps. If not, you might need `turbo run dev` directly if configured.)_
 
 ## 3. Running Tests
 
-*(Placeholder for test instructions)*
+_(Placeholder for test instructions)_
 
 To run tests for specific applications or the entire monorepo:
 
-*   **Run all tests in the monorepo:**
-    ```bash
-    npm test # Or `turbo run test` if configured
-    ```
-*   **Run backend tests:**
-    ```bash
-    cd apps/backend
-    npm test # Or `npm run test`
-    ```
-*   **Run frontend tests:**
-    ```bash
-    cd apps/frontend
-    npm test # Or `npm run test`
-    ```
+- **Run all tests in the monorepo:**
+  ```bash
+  npm test # Or `turbo run test` if configured
+  ```
+- **Run backend tests:**
+  ```bash
+  cd apps/backend
+  npm test # Or `npm run test`
+  ```
+- **Run frontend tests:**
+  ```bash
+  cd apps/frontend
+  npm test # Or `npm run test`
+  ```
 
 ## 4. Deployed URLs (Placeholders)
 
-*   **Frontend Application:** `https://your-frontend-app-url.com`
-*   **Backend API:** `https://your-backend-api-url.com`
+- **Frontend Application:** `https://luminous-daifuku-bebd97.netlify.app/`
+- **Backend API:** ` https://web-developer-assi.onrender.com/users`
