@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import UserPosts from "./components/user-posts";
