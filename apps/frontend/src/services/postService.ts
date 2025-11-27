@@ -8,3 +8,8 @@ export const fetchPosts = async (userId: string | undefined): Promise<Post[]> =>
   const response = await axios.get(url);
   return response.data;
 };
+
+export const deletePost = async (postId: number): Promise<void> => {
+  const url = `${BASE_URL}/${postId}`;
+  await axios.delete(url);
+};

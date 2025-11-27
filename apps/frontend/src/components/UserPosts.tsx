@@ -7,7 +7,7 @@ interface UserPostsProps {
 }
 
 const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
-  const { posts, totalPosts, isLoading: isLoadingPosts, error: postsError } = usePosts(userId);
+  const { posts, totalPosts, isLoading: isLoadingPosts, error: postsError, deletePost } = usePosts(userId);
   // const { user, isLoading: isLoadingUser, error: userError } = useUser(userId);
 
   const isLoading = isLoadingPosts;
@@ -41,7 +41,13 @@ const UserPosts: React.FC<UserPostsProps> = ({ userId }) => {
       {posts && posts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {posts.map((post) => (
-            <div key={post.id} className="bg-gray-100 p-4 rounded-lg shadow-md">
+            <div key={post.id} className="relative bg-gray-100 p-4 rounded-lg shadow-md">
+              <button
+                onClick={() => deletePost(post.id)}
+                className="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold"
+              >
+                X
+              </button>
               <h2 className="text-xl font-semibold">{post.title}</h2>
               <p className="text-gray-700 mt-2">{post.body}</p>
               <p className="text-sm text-gray-500 mt-2">Created: {new Date(post.created_at).toLocaleDateString()}</p>
