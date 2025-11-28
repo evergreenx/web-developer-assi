@@ -108,9 +108,9 @@ const Pagination: React.FC<PaginationProps> = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`py-1 px-2 rounded mr-2 text-sm text-foreground font-medium leading-5 tracking-normal ${
+            className={`py-1 px-2 rounded mr-2  h-10 w-10 cursor-pointer text-sm text-foreground font-medium leading-5 tracking-normal ${
               currentPage === page
-                ? "bg-background text-foreground border-border border  rounded-md"
+                ? "bg-background text-foreground border-border border  rounded-md "
                 : "bg-background hover:bg-gray-100"
             }`}
           >

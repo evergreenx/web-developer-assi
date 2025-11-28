@@ -1,23 +1,26 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useQuery } from "@tanstack/react-query";
-import { useQueryState } from "nuqs";
+import { useQueryState, parseAsInteger } from "nuqs";
 import { fetchUsers, fetchUsersCount } from "../services/userService";
 import type { User } from "../types";
 
+const parseAsOneIndexedInteger = parseAsInteger.withOptions({
+  // @ts-ignore
+  parse: (value: string) => (parseInt(value, 10) || 1) - 1,
+  serialize: (value: number) => (value + 1).toString(),
+});
 
 export const useUsers = () => {
-  const [pageNumber, setPageNumber] = useQueryState("pageNumber", {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    defaultValue: 0,
-    parser: (value: string) => parseInt(value) || 0,
-    serializer: (value: { toString: () => unknown; }) => value.toString(),
-  });
+  const [pageNumber, setPageNumber] = useQueryState(
+    "page",
+    parseAsOneIndexedInteger.withDefault(0)
+  );
+
   const {
     data: users,
     isLoading: areUsersLoading,
     error: usersError,
-  } = useQuery<User[]>({
-    // Explicitly type data as User[]
+  } = useQuery<User[]> ({
     queryKey: ["users", pageNumber, 4],
     queryFn: () => fetchUsers(pageNumber, 4),
   });
@@ -27,7 +30,6 @@ export const useUsers = () => {
     isLoading: isTotalUsersLoading,
     error: totalUsersError,
   } = useQuery<number>({
-    // Explicitly type data as number
     queryKey: ["totalUsers"],
     queryFn: fetchUsersCount,
   });
