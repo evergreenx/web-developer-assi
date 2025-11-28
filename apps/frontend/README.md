@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# Users-Posts Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend client for the Web Developer Assignment, built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node
+- Npm
 
-## React Compiler
+## Installation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1.  Install dependencies:
 
-## Expanding the ESLint configuration
+    ```bash
+    npm install
+    ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Running the Application
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+To start the development server:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Building for Production
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To build the application for production:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+```
+
+This will create a `dist/` directory with the production-ready files.
+
+## Architecture Overview
+
+The frontend follows a modern React architecture, separating concerns into three main areas:
+
+-   **Components (`src/components`):** Reusable UI elements responsible for rendering the application's views.
+-   **Hooks (`src/hooks`):** Custom hooks that encapsulate business logic, state management, and data fetching.
+-   **Services (`src/services`):** Modules responsible for communicating with the backend API.
+
+## Core Technologies
+
+-   **React & TypeScript:** For building a type-safe and component-based user interface.
+-   **Vite:** As the build tool and development server.
+-   **TanStack Query (`@tanstack/react-query`):** For managing server state, including caching, refetching, and background updates.
+-   **nuqs:** For managing state within the URL's query parameters, allowing for shareable and bookmarkable URLs.
+-   **Axios:** As the HTTP client for making API requests.
+
+## Key Components
+
+-   `UserTable`: Displays a paginated table of users, allowing for user selection.
+-   `UserPosts`: Displays the posts for a selected user and provides functionality to create and delete posts.
+-   `NewPostModal`: A modal dialog for creating new posts.
+
+## State Management
+
+The application employs a hybrid state management strategy:
+
+-   **Server State:** Managed by `@tanstack/react-query`, which handles all data fetching, caching, and synchronization with the backend.
+-   **URL State:** Managed by `nuqs`, which stores UI state (like page numbers) in the URL's query string. This makes the application state more predictable and shareable.
+
+## Routing
+
+As noted in the Design Choices, a full-fledged router was omitted for simplicity. The `App.tsx` component manages which view (`UserTable` or `UserPosts`) is displayed based on the presence of a `userId` in the URL, which is managed by the `nuqs` library.
+
+## Project Structure
+
+```
+frontend/
+├── src/           # TypeScript and React source files
+│   ├── components/  # Reusable React components
+│   ├── hooks/       # Custom React hooks
+│   ├── services/    # API communication services
+│   └── ...
+├── public/        # Static assets
+└── ...
 ```

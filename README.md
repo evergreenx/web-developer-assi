@@ -1,4 +1,4 @@
-# Monorepo Project
+# UserPosts Repo
 
 This project is a monorepo managed with [TurboRepo](https://turbo.build/). It contains two main applications: a backend API and a frontend web application.
 
