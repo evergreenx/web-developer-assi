@@ -5,12 +5,13 @@ This project is a monorepo managed with [TurboRepo](https://turbo.build/). It co
 ## Table of Contents
 
 1.  [Local Installation](#local-installation)
-2.  [Running the Applications](#running-the-applications)
+2.  [Environment Variables](#environment-variables)
+3.  [Running the Applications](#running-the-applications)
     - [Backend](#backend)
     - [Frontend](#frontend)
     - [Running Both with TurboRepo](#running-both-with-turborepo)
-3.  [Running Tests](#running-tests)
-4.  [Deployed URLs (Placeholders)](#deployed-urls-placeholders)
+4.  [Running Tests](#running-tests)
+5.  [Deployed URLs (Placeholders)](#deployed-urls-placeholders)
 
 ## 1. Local Installation
 
@@ -20,7 +21,7 @@ To get started with local development, follow these steps:
 
     ```bash
     git clone https://github.com/evergreenx/web-developer-assi
-    cd web-developer-assi # Or your cloned directory name
+    cd web-developer-assi 
     ```
 
 2.  **Install dependencies:**
@@ -30,7 +31,17 @@ To get started with local development, follow these steps:
     ```
     This will install dependencies for both the backend and frontend applications.
 
-## 2. Running the Applications
+## 2. Environment Variables
+
+This application requires specific environment variables to function correctly. Without these, the application will not work.
+
+Create a `.env.local` file in the `apps/frontend` directory and add the following:
+
+```
+VITE_APP_LOCAL_BASE_URL="http://localhost:3001"
+```
+
+## 3. Running the Applications
 
 ### Backend
 
@@ -73,7 +84,7 @@ You can leverage TurboRepo to run both applications concurrently from the projec
   turbo dev
   ```
 
-## 3. Running Tests
+## 4. Running Tests
 
 
 To run tests for specific applications or the entire monorepo:
@@ -93,7 +104,7 @@ To run tests for specific applications or the entire monorepo:
   npm test # Or `npm run test`
   ```
 
-## 4. Deployed URLs (Placeholders)
+## 5. Deployed URLs (Placeholders)
 
 - **Frontend Application:** `https://luminous-daifuku-bebd97.netlify.app/`
 - **Backend API:** ` https://web-developer-assi.onrender.com/users`
