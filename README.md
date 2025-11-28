@@ -87,22 +87,34 @@ You can leverage TurboRepo to run both applications concurrently from the projec
 ## 4. Running Tests
 
 
+
 To run tests for specific applications or the entire monorepo:
 
-- **Run all tests in the monorepo:**
-  ```bash
-  npm test # Or `turbo run test` if configured
-  ```
-- **Run backend tests:**
-  ```bash
-  cd apps/backend
-  npm test # Or `npm run test`
-  ```
+
+
 - **Run frontend tests:**
-  ```bash
-  cd apps/frontend
-  npm test # Or `npm run test`
-  ```
+
+    The frontend uses `vitest` with `@testing-library/react` and `@testing-library/jest-dom` for testing.
+
+
+
+    1.  **Install dependencies:** Ensure all dependencies are installed by running `npm install` in the `apps/frontend` directory.
+
+    2.  **Vitest Configuration:** A `vitest.config.ts` file is set up in `apps/frontend/vitest.config.ts` to configure `vitest`, including `jsdom` environment and `src/test-setup.ts`.
+
+    3.  **Jest-DOM Setup:** The `src/test-setup.ts` file imports `@testing-library/jest-dom` to extend `vitest`'s `expect` with additional matchers like `toBeInTheDocument`.
+
+    4.  **Run frontend tests:**
+
+        ```bash
+
+        cd apps/frontend
+
+        npx vitest
+
+        ```
+
+
 
 ## 5. Deployed URLs (Placeholders)
 
