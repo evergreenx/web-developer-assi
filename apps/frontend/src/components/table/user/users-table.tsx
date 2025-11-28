@@ -69,13 +69,15 @@ function UserTable({ onUserClick }: UserTableProps) {
               </tbody>
             </table>
           </div>
-
-          <Pagination
-            currentPage={pageNumber}
-            totalPages={totalPages}
-            onPageChange={setPageNumber}
-          />
         </>
+      )}
+
+      {totalPages > 0 && (
+        <Pagination
+          currentPage={pageNumber}
+          totalPages={totalPages}
+          onPageChange={setPageNumber}
+        />
       )}
     </div>
   );
