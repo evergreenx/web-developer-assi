@@ -19,8 +19,8 @@ To get started with local development, follow these steps:
 1.  **Clone the repository:**
 
     ```bash
-    git clone <your-repository-url>
-    cd web-developer-assignment-Public-main # Or your cloned directory name
+    git clone <https://github.com/evergreenx/web-developer-assi>
+    cd web-developer-assi # Or your cloned directory name
     ```
 
 2.  **Install dependencies:**
@@ -48,7 +48,7 @@ The backend application is located in `apps/backend`.
   ```bash
   npm run start
   ```
-  The backend API should be running at `http://localhost:3001` (placeholder URL).
+  The backend API should be running at `http://localhost:3001`.
 
 ### Frontend
 
@@ -70,9 +70,8 @@ You can leverage TurboRepo to run both applications concurrently from the projec
 
 - **Run both frontend and backend in development mode:**
   ```bash
-  npm run dev
+  turbo dev
   ```
-  _(Note: This assumes your root `package.json` has a `dev` script that orchestrates `turbo run dev` for both apps. If not, you might need `turbo run dev` directly if configured.)_
 
 ## 3. Running Tests
 
