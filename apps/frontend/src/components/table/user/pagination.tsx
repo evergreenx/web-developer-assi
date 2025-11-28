@@ -1,53 +1,63 @@
-import React from "react";
+import React, { useMemo } from "react";
 
-// Helper function to generate page numbers
-const generatePageNumbers = (currentPage: number, totalPages: number) => {
-  const pageNumbers = [];
-  const maxPagesToShow = 5; // e.g., 1 2 3 ... 8 9 10
+const DOTS = -1;
 
-  if (totalPages <= maxPagesToShow) {
-    for (let i = 0; i < totalPages; i++) {
-      pageNumbers.push(i);
-    }
-  } else {
-    // Always show first two pages
-    pageNumbers.push(0, 1);
+const range = (start: number, end: number) => {
+  const length = end - start + 1;
+  return Array.from({ length }, (_, idx) => idx + start);
+};
 
-    // Determine if ellipsis is needed at the start
-    if (currentPage > 2) {
-      pageNumbers.push(-1); // -1 signifies ellipsis
-    }
+interface UsePaginationProps {
+  totalPages: number;
+  siblingCount?: number;
+  currentPage: number;
+}
 
-    // Show current page and its immediate neighbors
-    if (currentPage > 1 && currentPage < totalPages - 2) {
-      pageNumbers.push(currentPage - 1, currentPage, currentPage + 1);
-    } else if (currentPage === totalPages - 2) {
-      pageNumbers.push(currentPage - 2, currentPage - 1, currentPage);
-    } else if (currentPage === totalPages - 1) {
-      pageNumbers.push(currentPage - 3, currentPage - 2, currentPage - 1);
+const usePagination = ({
+  totalPages,
+  siblingCount = 1,
+  currentPage,
+}: UsePaginationProps) => {
+  const paginationRange = useMemo(() => {
+    const totalPageNumbers = siblingCount + 5;
+
+    if (totalPageNumbers >= totalPages) {
+      return range(0, totalPages - 1);
     }
 
-    // Determine if ellipsis is needed at the end
-    if (currentPage < totalPages - 3) {
-      pageNumbers.push(-1); // -1 signifies ellipsis
-    }
-
-    // Always show last two pages
-    if (totalPages > 2) {
-      pageNumbers.push(totalPages - 2, totalPages - 1);
-    }
-
-    // Filter out duplicates and sort
-    const uniquePageNumbers = Array.from(new Set(pageNumbers)).sort(
-      (a, b) => a - b
+    const leftSiblingIndex = Math.max(currentPage - siblingCount, 0);
+    const rightSiblingIndex = Math.min(
+      currentPage + siblingCount,
+      totalPages - 1
     );
-    return uniquePageNumbers.filter(
-      (page, index, self) =>
-        page !== -1 || (index > 0 && self[index - 1] !== -1)
-    );
-  }
 
-  return pageNumbers;
+    const shouldShowLeftDots = leftSiblingIndex > 2;
+    const shouldShowRightDots = rightSiblingIndex < totalPages - 3;
+
+    const firstPageIndex = 0;
+    const lastPageIndex = totalPages - 1;
+
+    if (!shouldShowLeftDots && shouldShowRightDots) {
+      const leftItemCount = 3 + 2 * siblingCount;
+      const leftRange = range(0, leftItemCount - 1);
+      return [...leftRange, DOTS, lastPageIndex];
+    }
+
+    if (shouldShowLeftDots && !shouldShowRightDots) {
+      const rightItemCount = 3 + 2 * siblingCount;
+      const rightRange = range(totalPages - rightItemCount, totalPages - 1);
+      return [firstPageIndex, DOTS, ...rightRange];
+    }
+
+    if (shouldShowLeftDots && shouldShowRightDots) {
+      const middleRange = range(leftSiblingIndex, rightSiblingIndex);
+      return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+    }
+
+    return range(0, totalPages - 1);
+  }, [totalPages, siblingCount, currentPage]);
+
+  return paginationRange;
 };
 
 interface PaginationProps {
@@ -61,7 +71,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  const pagesToDisplay = generatePageNumbers(currentPage, totalPages);
+  const pagesToDisplay = usePagination({ currentPage, totalPages });
 
   return (
     <div className="flex justify-end items-center mt-4">
@@ -90,7 +100,7 @@ const Pagination: React.FC<PaginationProps> = ({
         Previous
       </button>
       {pagesToDisplay.map((page, index) =>
-        page === -1 ? (
+        page === DOTS ? (
           <span key={index} className="px-2 py-1 mr-2">
             ...
           </span>
@@ -118,6 +128,7 @@ const Pagination: React.FC<PaginationProps> = ({
           width="16"
           className="ml-1"
           height="16"
+
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -136,3 +147,4 @@ const Pagination: React.FC<PaginationProps> = ({
 };
 
 export default Pagination;
+
