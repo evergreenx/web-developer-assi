@@ -19,7 +19,7 @@ To get started with local development, follow these steps:
 1.  **Clone the repository:**
 
     ```bash
-    git clone <https://github.com/evergreenx/web-developer-assi>
+    git clone https://github.com/evergreenx/web-developer-assi
     cd web-developer-assi # Or your cloned directory name
     ```
 
@@ -75,7 +75,6 @@ You can leverage TurboRepo to run both applications concurrently from the projec
 
 ## 3. Running Tests
 
-_(Placeholder for test instructions)_
 
 To run tests for specific applications or the entire monorepo:
 
